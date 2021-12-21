@@ -56,3 +56,35 @@ public class EventPlayerDead: EventData
     }
 }
 
+[Serializable]
+public class EventMonsterDead: EventData
+{
+    Vector3 monsterPosition;
+
+
+    public EventMonsterDead(Vector3 pos, int playerId, int sessionId, float timestamp, Vector3 monsterPosition) : base(pos, playerId, sessionId, timestamp)
+    {
+
+        this.monsterPosition = monsterPosition;
+    }
+}
+
+[Serializable]
+public class EventSession
+{
+    public int sessionId;
+    public float sessionStart;
+    public float sessionEnd;
+
+    public EventSession(int sessionId, float sessionStart, float sessionEnd)
+    {
+        this.sessionId = sessionId;
+        this.sessionStart = sessionStart;
+        this.sessionEnd = sessionEnd;
+    }
+
+    public string GetSerialized()
+    {
+        return JsonUtility.ToJson(this);
+    }
+} 

@@ -9,6 +9,9 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
 {
     List<EventPlayerHit> listEventHits;
     List<EventTrackPlayerPosition> positionTrackerList;
+    List<EventPlayerDead> listPlayerDeaths;
+    List<EventMonsterDead> listMonsterDeaths;
+
 
     public void OnReceiveMessage(MessageType type, object sender, object msg)
     {
@@ -19,6 +22,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
                     if(((Damageable)sender).GetComponentInParent<objectData>().isMonster)
                     {
                         Debug.Log(((DamageMessage)msg).damager.transform.root.name);
+                        
                     }
                     else if(((Damageable)sender).GetComponent<objectData>().isPlayer)
                     {
