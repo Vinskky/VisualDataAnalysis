@@ -1,13 +1,16 @@
 ﻿using System.Collections;
+using System;
 using UnityEngine;
 
 //Main class event to inherit different data
+[Serializable]
 public class EventData
 {
     public Vector3 position;
     public int playerId;
     public int sessionId;
     public float timestamp;
+    
     public EventData(Vector3 pos, int playerId, int sessionId, float timestamp)
     {
         this.playerId = playerId;
@@ -22,21 +25,34 @@ public class EventData
     }
 }
 
-public class EventUpdate : EventData
+[Serializable]
+public class EventTrackPlayerPosition : EventData
 {
-    public EventUpdate(Vector3 pos, int playerId, int sessionId, float timestamp) : base(pos,playerId,sessionId,timestamp)
+    public EventTrackPlayerPosition(Vector3 pos, int playerId, int sessionId, float timestamp) : base(pos,playerId,sessionId,timestamp)
     {}
 }
 
-public class EventHit: EventData
+[Serializable]
+public class EventPlayerHit: EventData
 {
     Vector3 monsterPosition;
     int     monsterId;
     int     playerHp;
-    public EventHit(Vector3 pos, int playerId, int sessionId, float timestamp, Vector3 monsterPosition, int monsterId, int playerHp) : base(pos, playerId, sessionId, timestamp)
+    public EventPlayerHit(Vector3 pos, int playerId, int sessionId, float timestamp, Vector3 monsterPosition, int monsterId, int playerHp) : base(pos, playerId, sessionId, timestamp)
     {
         this.monsterPosition = monsterPosition;
         this.monsterId = monsterId;
         this.playerHp = playerHp;
     }
 }
+
+[Serializable]
+public class EventPlayerDead: EventData
+{
+    int monsterId;
+    public EventPlayerDead(Vector3 pos, int playerId, int sessionId, float timestamp, int monsterId) : base(pos, playerId, sessionId, timestamp)
+    {
+        this.monsterId = monsterId;
+    }
+}
+

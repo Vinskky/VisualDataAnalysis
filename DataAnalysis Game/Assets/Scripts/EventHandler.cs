@@ -7,7 +7,9 @@ using static Gamekit3D.Damageable;
 
 public class EventHandler : MonoBehaviour, IMessageReceiver
 {
-    List<EventHit> listEventHits;
+    List<EventPlayerHit> listEventHits;
+    List<EventTrackPlayerPosition> positionTrackerList;
+
     public void OnReceiveMessage(MessageType type, object sender, object msg)
     {
         switch (type)
