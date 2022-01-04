@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class objectData : MonoBehaviour
 {
-    [Header("data about object")]
+    [Header("Object Data parameters")]
+
     public uint objectId;
     public bool isPlayer;
     public bool isMonster;
+    //public Vector3 position;
+    //public int hp;
+    //public float currentTime;
     
     // Start is called before the first frame update
     void Start()
