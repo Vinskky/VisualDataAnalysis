@@ -12,13 +12,25 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     List<EventPlayerDead> listPlayerDeaths = new List<EventPlayerDead>();
     List<EventMonsterDead> listMonsterDeaths = new List<EventMonsterDead>();
 
+    public GameObject playerGO;
     private GameObject monster;
     private GameObject player;
     private float currentTime = 0.0f;
+    bool trackPlayerPos = false;
 
     void Update()
     {
-        currentTime += Time.deltaTime;
+        if(trackPlayerPos)
+            currentTime += Time.deltaTime;
+
+        if (currentTime >= 2.0f)
+        {
+            EventTrackPlayerPosition playerPositionEvent = new EventTrackPlayerPosition(playerGO.transform.position, playerGO.GetComponent<objectData>().objectId, 1, Time.realtimeSinceStartup);
+
+            positionTrackerList.Add(playerPositionEvent);
+
+            currentTime = 0;
+        }
     }
 
     public void OnReceiveMessage(MessageType type, object sender, object msg)
@@ -27,35 +39,16 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
         {
             case MessageType.DAMAGED:
                 {
-                    if(((Damageable)sender).GetComponentInParent<objectData>().isMonster)
-                    {
-
-                        monster = ((Damageable)sender).gameObject;
-
-                        player = ((DamageMessage)msg).damager.transform.root.gameObject;
-
-                        
-
-                        //-----LOGS------
-                        Debug.Log("Damage Attacker: " + player.name);
-
-                        Debug.Log("Damage Reciever: " + monster.name);
-
-                    }
-                    else if(((Damageable)sender).GetComponent<objectData>().isPlayer)
+                    if(((Damageable)sender).GetComponent<objectData>().isPlayer)
                     {
                         monster = ((DamageMessage)msg).damager.transform.root.gameObject;
 
                         player = ((Damageable)sender).gameObject;
 
-                        EventPlayerHit playerHitEvent = new EventPlayerHit(player.transform.position, player.GetComponent<objectData>().objectId,1, currentTime, 
+                        EventPlayerHit playerHitEvent = new EventPlayerHit(player.transform.position, player.GetComponent<objectData>().objectId,1, Time.realtimeSinceStartup, 
                                                                             monster.transform.position,monster.GetComponent<objectData>().objectId, ((Damageable)sender).currentHitPoints);
-
-                        EventTrackPlayerPosition playerPositionEvent = new EventTrackPlayerPosition(player.transform.position, player.GetComponent<objectData>().objectId, 1, currentTime);
                         
                         listEventHits.Add(playerHitEvent);
-
-                        positionTrackerList.Add(playerPositionEvent);
 
                         //-----LOGS------
                         Debug.Log("Damage Attacker: " + monster.name);
@@ -72,15 +65,10 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
 
                         player = ((DamageMessage)msg).damager.transform.root.gameObject;
 
-                        EventMonsterDead monsterDeadEvent = new EventMonsterDead(monster.transform.position, player.GetComponent<objectData>().objectId, 1, currentTime,
-                                                                            monster.transform.position);
-
-                        EventTrackPlayerPosition playerPositionEvent = new EventTrackPlayerPosition(player.transform.position, player.GetComponent<objectData>().objectId, 1, currentTime);
+                        EventMonsterDead monsterDeadEvent = new EventMonsterDead(monster.transform.position, player.GetComponent<objectData>().objectId, 1, 
+                                                                                 Time.realtimeSinceStartup, monster.transform.position);
 
                         listMonsterDeaths.Add(monsterDeadEvent);
-
-                        positionTrackerList.Add(playerPositionEvent);
-
 
                         //-----LOGS------
                         Debug.Log("Damage Attacker: " + player.name);
@@ -94,15 +82,10 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
 
                         player = ((Damageable)sender).gameObject;
 
-                        EventPlayerDead playerDeadEvent = new EventPlayerDead(player.transform.position, player.GetComponent<objectData>().objectId, 1, currentTime,
+                        EventPlayerDead playerDeadEvent = new EventPlayerDead(player.transform.position, player.GetComponent<objectData>().objectId, 1, Time.realtimeSinceStartup,
                                                                              monster.GetComponent<objectData>().objectId);
 
-                        EventTrackPlayerPosition playerPositionEvent = new EventTrackPlayerPosition(player.transform.position, player.GetComponent<objectData>().objectId, 1, currentTime);
-
                         listPlayerDeaths.Add(playerDeadEvent);
-
-                        positionTrackerList.Add(playerPositionEvent);
-
 
                         //-----LOGS------
                         Debug.Log("Damage Attacker: " + monster.name);
@@ -111,11 +94,14 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
                     }
                 }
                 break;
-            case MessageType.RESPAWN:
-                break;
             default:
                 throw new System.NotImplementedException();
         }
        
+    }
+
+    public void ActivateTrackPlayerPos()
+    {
+        trackPlayerPos = true;
     }
 }
