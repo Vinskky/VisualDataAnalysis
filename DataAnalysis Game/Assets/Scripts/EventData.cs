@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class EventData
 {
-
     public Vector3 position;
     public int playerId;
     public int sessionId;
@@ -39,6 +38,7 @@ public class EventPlayerHit: EventData
     Vector3 monsterPosition;
     int     monsterId;
     int     playerHp;
+
     public EventPlayerHit(Vector3 pos, int playerId, int sessionId, float timestamp, Vector3 monsterPosition, int monsterId, int playerHp) : base(pos, playerId, sessionId, timestamp)
     {
         this.monsterPosition = monsterPosition;
@@ -51,6 +51,7 @@ public class EventPlayerHit: EventData
 public class EventPlayerDead: EventData
 {
     int monsterId;
+
     public EventPlayerDead(Vector3 pos, int playerId, int sessionId, float timestamp, int monsterId) : base(pos, playerId, sessionId, timestamp)
     {
         this.monsterId = monsterId;
@@ -61,7 +62,6 @@ public class EventPlayerDead: EventData
 public class EventMonsterDead: EventData
 {
     Vector3 monsterPosition;
-
 
     public EventMonsterDead(Vector3 pos, int playerId, int sessionId, float timestamp, Vector3 monsterPosition) : base(pos, playerId, sessionId, timestamp)
     {
