@@ -7,11 +7,12 @@ using static Gamekit3D.Damageable;
 
 public class EventHandler : MonoBehaviour, IMessageReceiver
 {
-    List<EventPlayerHit> listEventHits = new List<EventPlayerHit>();
-    List<EventTrackPlayerPosition> positionTrackerList = new List<EventTrackPlayerPosition>();
-    List<EventPlayerDead> listPlayerDeaths = new List<EventPlayerDead>();
-    List<EventMonsterDead> listMonsterDeaths = new List<EventMonsterDead>();
+    public List<EventPlayerHit> listEventHits = new List<EventPlayerHit>();
+    public List<EventTrackPlayerPosition> positionTrackerList = new List<EventTrackPlayerPosition>();
+    public List<EventPlayerDead> listPlayerDeaths = new List<EventPlayerDead>();
+    public List<EventMonsterDead> listMonsterDeaths = new List<EventMonsterDead>();
 
+    public Writer writer;
     public GameObject playerGO;
     private GameObject monster;
     private GameObject player;
@@ -103,5 +104,10 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     public void ActivateTrackPlayerPos()
     {
         trackPlayerPos = true;
+    }
+
+    void OnApplicationQuit()
+    {
+        writer.SerializeAndSave(this);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class EventData
 {
+
     public Vector3 position;
     public int playerId;
     public int sessionId;
