@@ -8,7 +8,7 @@ public class DataVisualizer : MonoBehaviour
     public int width;
     public int height;
     public float cellSize;
-    public enum dataType { PlayerPosition =1, PlayerDeaths, PlayerHits }
+    public enum dataType { PlayerPosition =1, PlayerDeaths, PlayerHits, MonsterDeaths }
 
     [Header("Visualization")]
     public dataType showData;
@@ -62,6 +62,9 @@ public class DataVisualizer : MonoBehaviour
                 break;
             case dataType.PlayerHits:
                 DisplayPlayerHits();
+                break;
+            case dataType.MonsterDeaths:
+                DisplayMonsterDeaths();
                 break;
         }
 
@@ -127,7 +130,7 @@ public class DataVisualizer : MonoBehaviour
                     
                     GameObject instantiatedEl = Instantiate(heatMapElement, grid.GetWorldPosition(x, y) + new Vector3(cellSize,1.0f,cellSize) * 0.5f, Quaternion.identity);
 
-                    instantiatedEl.GetComponent<Renderer>().material.SetColor("_Color", gradient.Evaluate(((float)grid.gridArray[x, y] / 10.0f)));
+                    instantiatedEl.GetComponent<Renderer>().material.SetColor("_Color", gradient.Evaluate(((float)grid.gridArray[x, y] / 20.0f)));
 
                 }
             }

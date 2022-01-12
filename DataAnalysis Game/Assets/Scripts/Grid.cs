@@ -19,7 +19,7 @@ public class Grid
         this.originPosition = originPosition;
         gridArray = new int[width, height];
         //debugArray = new TextMesh[width, height];
-        SetGridToZeros();
+        ResetGrid();
         VisualizeGrid();
     }
 
