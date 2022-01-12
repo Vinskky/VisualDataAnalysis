@@ -102,6 +102,7 @@ public class DataVisualizer : MonoBehaviour
                 if(grid.gridArray[x,y] > 0)
                 {
                     Instantiate(heatMapElement, grid.GetWorldPosition(x, y), Quaternion.identity);
+                    Debug.Log(grid.gridArray[x, y]);
                 }
             }
         }
