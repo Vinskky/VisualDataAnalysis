@@ -64,6 +64,8 @@ public class Writer : MonoBehaviour
             jsonString += eventSession.GetSerialized() + "\n";
         }
 
+        Debug.Log("Writing Session Data");
+
         File.WriteAllText(sessionPath, jsonString);
     }
 
