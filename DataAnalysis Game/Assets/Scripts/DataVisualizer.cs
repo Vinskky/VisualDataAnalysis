@@ -23,16 +23,6 @@ public class DataVisualizer : MonoBehaviour
     GradientColorKey[] colorKey;
     GradientAlphaKey[] alphaKey;
 
-
-
-
-    enum HeatMapValues
-    {
-
-
-
-    }
-
     private void Start()
     {
         grid = new Grid(width, height, cellSize, gameObject.transform.position);
@@ -59,6 +49,8 @@ public class DataVisualizer : MonoBehaviour
             
         if (!visualize)
             return;
+
+        grid.ResetGrid();
         
         switch(showData)
         {
@@ -108,6 +100,17 @@ public class DataVisualizer : MonoBehaviour
         List<EventPlayerHit> playerHits = writerAndReader.DeserilizePlayerHitEvent();
 
         foreach (EventPlayerHit ev in playerHits)
+        {
+            grid.SetValue(ev.position, grid.GetValue(ev.position) + 1);
+        }
+    }
+
+    public void DisplayMonsterDeaths()
+    {
+        //Read Player Hits
+        List<EventMonsterDead> monsterDeaths = writerAndReader.DeserilizeMonsterDeadEvent();
+
+        foreach (EventMonsterDead ev in monsterDeaths)
         {
             grid.SetValue(ev.position, grid.GetValue(ev.position) + 1);
         }

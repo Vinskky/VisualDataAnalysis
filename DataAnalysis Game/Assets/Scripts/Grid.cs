@@ -105,7 +105,7 @@ public class Grid
         return GetValue(x, y);
     }
 
-    public void SetGridToZeros()
+    public void ResetGrid()
     {
         for (int x = 0; x < gridArray.GetLength(0); ++x)
         {
@@ -114,5 +114,13 @@ public class Grid
                 gridArray[x, y] = 0;
             }
         }
-    }
+
+        GameObject[] elements = GameObject.FindGameObjectsWithTag("HeatmapElement");
+
+        foreach(GameObject el in elements)
+        {
+            GameObject.Destroy(el);
+        }
+;    }
+
 }
