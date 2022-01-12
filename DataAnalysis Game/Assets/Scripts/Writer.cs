@@ -9,6 +9,7 @@ public class Writer : MonoBehaviour
     string playerHitPath    = "Assets/Data/playerHitEvent.json";
     string playerDeadPath   = "Assets/Data/playerDeadEvent.json";
     string monsterDeadPath  = "Assets/Data/monsterDeadEvent.json";
+    string sessionPath      = "Assets/Data/sessionEvent.json";
     
     public void SerializeAndSave(EventHandler eventHandler)
     {
@@ -53,6 +54,16 @@ public class Writer : MonoBehaviour
         }
 
         File.WriteAllText(monsterDeadPath, jsonString);
+
+        //------------------Session Event----------------------
+        jsonString = File.Exists(sessionPath) ? File.ReadAllText(sessionPath) : string.Empty;
+
+        foreach (EventSession eventSession in eventHandler.listSessions)
+        {
+            jsonString += eventSession.GetSerialized() + "\n";
+        }
+
+        File.WriteAllText(sessionPath, jsonString);
     }
 
     public void DeserializeEventData(EventHandler eventHandler)
@@ -114,5 +125,41 @@ public class Writer : MonoBehaviour
                 eventHandler.listMonsterDeaths.Add(JsonUtility.FromJson<EventMonsterDead>(ev));
             }
         }
+
+        //------------------Session Event----------------------
+        if (File.Exists(sessionPath))
+        {
+            events = File.ReadAllLines(sessionPath);
+            
+            foreach(string ev in events)
+            {
+                if (ev == null)
+                    break;
+                
+                eventHandler.listSessions.Add(JsonUtility.FromJson<EventSession>(ev));
+            }
+        }
+    }
+
+    public int GetLastRegisteredSessionID()
+    {
+        if (!File.Exists(sessionPath))
+            return -1;
+        
+        string[] sessionEvs = new string[4092];
+        sessionEvs = File.ReadAllLines(sessionPath);
+
+        string prevEv = string.Empty;
+        foreach(string ev in sessionEvs)
+        {   
+            if (ev == null)
+                break;
+            
+            prevEv = ev;
+        }
+
+        EventSession lastSession = JsonUtility.FromJson<EventSession>(prevEv);
+
+        return lastSession.sessionId;
     }
 }

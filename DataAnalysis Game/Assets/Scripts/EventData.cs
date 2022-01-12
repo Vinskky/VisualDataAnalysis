@@ -76,12 +76,14 @@ public class EventSession
     public int sessionId;
     public float sessionStart;
     public float sessionEnd;
+    public int userId;
 
-    public EventSession(int sessionId, float sessionStart, float sessionEnd)
+    public EventSession(int sessionId, float sessionStart, float sessionEnd, int userId)
     {
         this.sessionId = sessionId;
         this.sessionStart = sessionStart;
         this.sessionEnd = sessionEnd;
+        this.userId = userId;
     }
 
     public string GetSerialized()

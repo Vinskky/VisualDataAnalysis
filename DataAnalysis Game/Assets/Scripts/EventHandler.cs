@@ -11,6 +11,8 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     public List<EventPlayerHit> listEventHits = new List<EventPlayerHit>();
     public List<EventPlayerDead> listPlayerDeaths = new List<EventPlayerDead>();
     public List<EventMonsterDead> listMonsterDeaths = new List<EventMonsterDead>();
+    public List<EventSession> listSessions = new List<EventSession>();
+    private EventSession currentSession;
 
     public Writer writer;
     public GameObject playerGO;
@@ -22,6 +24,8 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     void Start()
     {
         // writer.DeserializeEventData(this);
+        
+        currentSession = new EventSession((writer.GetLastRegisteredSessionID() + 1), Time.realtimeSinceStartup, -1.0f, playerGO.GetComponent<objectData>().objectId);
     }
 
     void Update()
@@ -60,7 +64,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
             monster = ((DamageMessage)msg).damager.transform.root.gameObject;
             player  = ((Damageable)sender).gameObject;
 
-            EventPlayerHit playerHitEvent = new EventPlayerHit(player.transform.position, player.GetComponent<objectData>().objectId,1, Time.realtimeSinceStartup, 
+            EventPlayerHit playerHitEvent = new EventPlayerHit(player.transform.position, player.GetComponent<objectData>().objectId, currentSession.sessionId, Time.realtimeSinceStartup, 
                                                                 monster.transform.position, monster.GetComponent<objectData>().objectId, ((Damageable)sender).currentHitPoints);
                         
             listEventHits.Add(playerHitEvent);
@@ -78,7 +82,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
             monster = ((Damageable)sender).gameObject;
             player  = ((DamageMessage)msg).damager.transform.root.gameObject;
 
-            EventMonsterDead monsterDeadEvent = new EventMonsterDead(monster.transform.position, player.GetComponent<objectData>().objectId, 1, 
+            EventMonsterDead monsterDeadEvent = new EventMonsterDead(monster.transform.position, player.GetComponent<objectData>().objectId, currentSession.sessionId, 
                                                                         Time.realtimeSinceStartup, monster.transform.position);
 
             listMonsterDeaths.Add(monsterDeadEvent);
@@ -93,7 +97,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
             monster = ((DamageMessage)msg).damager.transform.root.gameObject;
             player  = ((Damageable)sender).gameObject;
 
-            EventPlayerDead playerDeadEvent = new EventPlayerDead(player.transform.position, player.GetComponent<objectData>().objectId, 1, Time.realtimeSinceStartup,
+            EventPlayerDead playerDeadEvent = new EventPlayerDead(player.transform.position, player.GetComponent<objectData>().objectId, currentSession.sessionId, Time.realtimeSinceStartup,
                                                                     monster.GetComponent<objectData>().objectId);
 
             listPlayerDeaths.Add(playerDeadEvent);
@@ -111,6 +115,9 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
 
     void OnApplicationQuit()
     {
+        currentSession.sessionEnd = Time.realtimeSinceStartup;
+        listSessions.Add(currentSession);
+
         writer.SerializeAndSave(this);
     }
 }
