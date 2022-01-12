@@ -3379,7 +3379,7 @@ GameObject:
   - component: {fileID: 6366957292105912628}
   m_Layer: 23
   m_Name: Chomper
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

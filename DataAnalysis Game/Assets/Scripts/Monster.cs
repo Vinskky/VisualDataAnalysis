@@ -7,10 +7,10 @@ public class Monster
 {
     public int monsterId;
     public string monsterType;
-    public int initPosX;
-    public int initPosY;
+    public float initPosX;
+    public float initPosY;
 
-    public Monster(int monsterId, string monsterType, int initPosX, int initPosY)
+    public Monster(int monsterId, string monsterType, float initPosX, float initPosY)
     {
         this.monsterId = monsterId;
         this.monsterType = monsterType;

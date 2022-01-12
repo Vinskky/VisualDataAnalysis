@@ -2458,7 +2458,7 @@ GameObject:
   - component: {fileID: 2240822081818436455}
   m_Layer: 23
   m_Name: Spitter
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2654,7 +2654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a208f709efb5c442870cdbc05ac2a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ojectId: 0
+  objectId: 0
   isPlayer: 0
   isMonster: 1
 --- !u!1 &1528829956455804
