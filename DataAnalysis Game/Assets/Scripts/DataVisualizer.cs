@@ -19,6 +19,12 @@ public class DataVisualizer : MonoBehaviour
 
     [HideInInspector]
     Grid grid;
+    Gradient gradient;
+    GradientColorKey[] colorKey;
+    GradientAlphaKey[] alphaKey;
+
+
+
 
     enum HeatMapValues
     {
@@ -30,6 +36,20 @@ public class DataVisualizer : MonoBehaviour
     private void Start()
     {
         grid = new Grid(width, height, cellSize, gameObject.transform.position);
+
+
+        gradient = new Gradient();
+
+        colorKey = new GradientColorKey[2];
+        colorKey[0].color = Color.green;
+        colorKey[0].time = 0.0f;
+        colorKey[1].color = Color.red;
+        colorKey[1].time = 1.0f;
+
+        alphaKey = new GradientAlphaKey[1];
+        alphaKey[0].alpha = 1.0f;
+
+        gradient.SetKeys(colorKey, alphaKey);
     }
 
     private void Update()
@@ -101,8 +121,11 @@ public class DataVisualizer : MonoBehaviour
             {
                 if(grid.gridArray[x,y] > 0)
                 {
-                    Instantiate(heatMapElement, grid.GetWorldPosition(x, y), Quaternion.identity);
-                    Debug.Log(grid.gridArray[x, y]);
+                    
+                    GameObject instantiatedEl = Instantiate(heatMapElement, grid.GetWorldPosition(x, y) + new Vector3(cellSize,1.0f,cellSize) * 0.5f, Quaternion.identity);
+
+                    instantiatedEl.GetComponent<Renderer>().material.SetColor("_Color", gradient.Evaluate(((float)grid.gridArray[x, y] / 10.0f)));
+
                 }
             }
         }
