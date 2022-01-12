@@ -25,7 +25,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     void Start()
     {
         // writer.DeserializeEventData(this);
-
+        playerGO.GetComponent<objectData>().objectId = writer.GetRandomUserID();
         currentSession = new EventSession((writer.GetLastRegisteredSessionID() + 1), Time.realtimeSinceStartup, -1.0f, playerGO.GetComponent<objectData>().objectId);
     }
 

@@ -10,6 +10,7 @@ public class Writer : MonoBehaviour
     string playerDeadPath   = "Assets/Data/playerDeadEvent.json";
     string monsterDeadPath  = "Assets/Data/monsterDeadEvent.json";
     string sessionPath      = "Assets/Data/sessionEvent.json";
+    string usersPath        = "Assets/Data/users.json";
     
     public void SerializeAndSave(EventHandler eventHandler)
     {
@@ -295,5 +296,18 @@ public class Writer : MonoBehaviour
         EventSession lastSession = JsonUtility.FromJson<EventSession>(prevEv);
 
         return lastSession.sessionId;
+    }
+
+    public int GetRandomUserID()
+    {
+        if (!File.Exists(usersPath))
+            return 0;
+        
+        string[] users = new string[6];
+        users = File.ReadAllLines(usersPath);
+
+        User user = JsonUtility.FromJson<User>(users[Random.Range(0, 5)]);
+
+        return user.userId;
     }
 }
