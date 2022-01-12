@@ -66,80 +66,214 @@ public class Writer : MonoBehaviour
         File.WriteAllText(sessionPath, jsonString);
     }
 
-    public void DeserializeEventData(EventHandler eventHandler)
+    public List<EventTrackPlayerPosition> DeserilizePlayerPosEvent()
     {
         string[] events = new string[4096];
+        List<EventTrackPlayerPosition> playerPosList = new List<EventTrackPlayerPosition>();
 
         //------------------Player Position Event----------------------
         if (File.Exists(playerPosPath))
         {
             events = File.ReadAllLines(playerPosPath);
 
-            foreach(string ev in events)
+            foreach (string ev in events)
             {
                 if (ev == null)
                     break;
-                
-                eventHandler.positionTrackerList.Add(JsonUtility.FromJson<EventTrackPlayerPosition>(ev));
-            }
-        }
 
-        //------------------Player Hit Event----------------------
+                playerPosList.Add(JsonUtility.FromJson<EventTrackPlayerPosition>(ev));
+            }
+
+            return playerPosList;
+        }
+        else
+        {
+            Debug.LogError("File doesn't exist.");
+            return null;
+        }
+    }
+
+    public List<EventPlayerHit> DeserilizePlayerHitEvent()
+    {
+        string[] events = new string[4096];
+        List<EventPlayerHit> playerHitList = new List<EventPlayerHit>();
+
+        //------------------Player Position Event----------------------
         if (File.Exists(playerHitPath))
         {
             events = File.ReadAllLines(playerHitPath);
 
-            foreach(string ev in events)
+            foreach (string ev in events)
             {
                 if (ev == null)
                     break;
-                
-                eventHandler.listEventHits.Add(JsonUtility.FromJson<EventPlayerHit>(ev));
-            }
-        }
 
-        //------------------Player Dead Event----------------------
+                playerHitList.Add(JsonUtility.FromJson<EventPlayerHit>(ev));
+            }
+
+            return playerHitList;
+        }
+        else
+        {
+            Debug.LogError("File doesn't exist.");
+            return null;
+        }
+    }
+
+    public List<EventPlayerDead> DeserilizePlayerDeadEvent()
+    {
+        string[] events = new string[4096];
+        List<EventPlayerDead> playerDeadList = new List<EventPlayerDead>();
+
+        //------------------Player Position Event----------------------
         if (File.Exists(playerDeadPath))
         {
             events = File.ReadAllLines(playerDeadPath);
 
-            foreach(string ev in events)
+            foreach (string ev in events)
             {
                 if (ev == null)
                     break;
-                
-                eventHandler.listPlayerDeaths.Add(JsonUtility.FromJson<EventPlayerDead>(ev));
-            }
-        }
 
-        //------------------Monster Dead Event----------------------
+                playerDeadList.Add(JsonUtility.FromJson<EventPlayerDead>(ev));
+            }
+
+            return playerDeadList;
+        }
+        else
+        {
+            Debug.LogError("File doesn't exist.");
+            return null;
+        }
+    }
+    public List<EventMonsterDead> DeserilizeMonsterDeadEvent()
+    {
+        string[] events = new string[4096];
+        List<EventMonsterDead> monsterDeadList = new List<EventMonsterDead>();
+
+        //------------------Player Position Event----------------------
         if (File.Exists(monsterDeadPath))
         {
             events = File.ReadAllLines(monsterDeadPath);
 
-            foreach(string ev in events)
+            foreach (string ev in events)
             {
                 if (ev == null)
                     break;
-                
-                eventHandler.listMonsterDeaths.Add(JsonUtility.FromJson<EventMonsterDead>(ev));
-            }
-        }
 
-        //------------------Session Event----------------------
+                monsterDeadList.Add(JsonUtility.FromJson<EventMonsterDead>(ev));
+            }
+
+            return monsterDeadList;
+        }
+        else
+        {
+            Debug.LogError("File doesn't exist.");
+            return null;
+        }
+    }
+
+    public List<EventSession> DeserilizeEventSession()
+    {
+        string[] events = new string[4096];
+        List<EventSession> eventSessionList = new List<EventSession>();
+
+        //------------------Player Position Event----------------------
         if (File.Exists(sessionPath))
         {
             events = File.ReadAllLines(sessionPath);
-            
-            foreach(string ev in events)
+
+            foreach (string ev in events)
             {
                 if (ev == null)
                     break;
-                
-                eventHandler.listSessions.Add(JsonUtility.FromJson<EventSession>(ev));
+
+                eventSessionList.Add(JsonUtility.FromJson<EventSession>(ev));
             }
+
+            return eventSessionList;
+        }
+        else
+        {
+            Debug.LogError("File doesn't exist.");
+            return null;
         }
     }
+
+    //public void DeserializeEventData(EventHandler eventHandler)
+    //{
+    //    string[] events = new string[4096];
+
+    //    //------------------Player Position Event----------------------
+    //    if (File.Exists(playerPosPath))
+    //    {
+    //        events = File.ReadAllLines(playerPosPath);
+
+    //        foreach(string ev in events)
+    //        {
+    //            if (ev == null)
+    //                break;
+                
+    //            eventHandler.positionTrackerList.Add(JsonUtility.FromJson<EventTrackPlayerPosition>(ev));
+    //        }
+    //    }
+
+    //    //------------------Player Hit Event----------------------
+    //    if (File.Exists(playerHitPath))
+    //    {
+    //        events = File.ReadAllLines(playerHitPath);
+
+    //        foreach(string ev in events)
+    //        {
+    //            if (ev == null)
+    //                break;
+                
+    //            eventHandler.listEventHits.Add(JsonUtility.FromJson<EventPlayerHit>(ev));
+    //        }
+    //    }
+
+    //    //------------------Player Dead Event----------------------
+    //    if (File.Exists(playerDeadPath))
+    //    {
+    //        events = File.ReadAllLines(playerDeadPath);
+
+    //        foreach(string ev in events)
+    //        {
+    //            if (ev == null)
+    //                break;
+                
+    //            eventHandler.listPlayerDeaths.Add(JsonUtility.FromJson<EventPlayerDead>(ev));
+    //        }
+    //    }
+
+    //    //------------------Monster Dead Event----------------------
+    //    if (File.Exists(monsterDeadPath))
+    //    {
+    //        events = File.ReadAllLines(monsterDeadPath);
+
+    //        foreach(string ev in events)
+    //        {
+    //            if (ev == null)
+    //                break;
+                
+    //            eventHandler.listMonsterDeaths.Add(JsonUtility.FromJson<EventMonsterDead>(ev));
+    //        }
+    //    }
+
+    //    //------------------Session Event----------------------
+    //    if (File.Exists(sessionPath))
+    //    {
+    //        events = File.ReadAllLines(sessionPath);
+            
+    //        foreach(string ev in events)
+    //        {
+    //            if (ev == null)
+    //                break;
+                
+    //            eventHandler.listSessions.Add(JsonUtility.FromJson<EventSession>(ev));
+    //        }
+    //    }
+    //}
 
     public int GetLastRegisteredSessionID()
     {

@@ -19,6 +19,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
     private GameObject monster;
     private GameObject player;
     private float currentTime = 0.0f;
+    public float generatePosTimer = 2.0f;
     bool trackPlayerPos = false;
 
     void Start()
@@ -33,7 +34,7 @@ public class EventHandler : MonoBehaviour, IMessageReceiver
         if(trackPlayerPos)
             currentTime += Time.deltaTime;
 
-        if (currentTime >= 2.0f)
+        if (currentTime >= generatePosTimer)
         {
             GeneratePlayerPositionEvent();
             currentTime = 0;
