@@ -59,6 +59,7 @@ namespace Gamekit3D
 
             m_Shooter = shooter;
 
+            this.transform.SetParent(m_Shooter.gameObject.transform);
 
             m_RigidBody.velocity = GetVelocity(target);
             m_RigidBody.AddRelativeTorque(Vector3.right * -5500.0f);
