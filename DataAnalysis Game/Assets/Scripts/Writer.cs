@@ -12,7 +12,7 @@ public class Writer : MonoBehaviour
     string sessionPath      = "Assets/Data/sessionEvent.json";
     
     public void SerializeAndSave(EventHandler eventHandler)
-    {
+    {   
         string jsonString = string.Empty;
 
         //------------------Player Position Event----------------------
