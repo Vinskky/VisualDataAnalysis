@@ -130,7 +130,7 @@ public class DataVisualizer : MonoBehaviour
                     
                     GameObject instantiatedEl = Instantiate(heatMapElement, grid.GetWorldPosition(x, y) + new Vector3(cellSize,1.0f,cellSize) * 0.5f, Quaternion.identity);
 
-                    instantiatedEl.GetComponent<Renderer>().material.SetColor("_Color", gradient.Evaluate(((float)grid.gridArray[x, y] / 20.0f)));
+                    instantiatedEl.GetComponent<Renderer>().material.SetColor("_Color", gradient.Evaluate(((float)grid.gridArray[x, y] / 5.0f)));
 
                 }
             }
