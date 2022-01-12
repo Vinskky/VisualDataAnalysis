@@ -8,8 +8,8 @@ public class Grid
     private int height;
     private float cellSize;
     private Vector3 originPosition;
-    private int[,] gridArray;
-    private TextMesh[,] debugArray;
+    public int[,] gridArray;
+    //private TextMesh[,] debugArray;
 
     public Grid(int width, int height, float cellSize, Vector3 originPosition)
     {
@@ -18,7 +18,8 @@ public class Grid
         this.cellSize = cellSize;
         this.originPosition = originPosition;
         gridArray = new int[width, height];
-        debugArray = new TextMesh[width, height];
+        //debugArray = new TextMesh[width, height];
+        SetGridToZeros();
         VisualizeGrid();
     }
 
@@ -57,7 +58,7 @@ public class Grid
     }
 
 
-    private Vector3 GetWorldPosition(int x, int y)
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, 1f ,y) * cellSize + originPosition;
     }
@@ -65,7 +66,7 @@ public class Grid
     private void GetXY(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt((worldPosition- originPosition).x / cellSize);
-        y = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
+        y = Mathf.FloorToInt((worldPosition - originPosition).z / cellSize);
     }
     //Set value using grid position
     public void SetValue(int x, int y, int value)
@@ -73,7 +74,7 @@ public class Grid
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
             gridArray[x, y] = value;
-            debugArray[x, y].text = gridArray[x, y].ToString();
+            //debugArray[x, y].text = gridArray[x, y].ToString();
         }
     }
     //Set value giving a world position
@@ -102,5 +103,16 @@ public class Grid
         int x, y;
         GetXY(worldPosition, out x, out y);
         return GetValue(x, y);
+    }
+
+    public void SetGridToZeros()
+    {
+        for (int x = 0; x < gridArray.GetLength(0); ++x)
+        {
+            for (int y = 0; y < gridArray.GetLength(1); ++y)
+            {
+                gridArray[x, y] = 0;
+            }
+        }
     }
 }
